@@ -2,14 +2,14 @@
 :root{--navy:#0967b2;--blue:#0967b2;--bg:#f1f6fc;--line:#d7e0e8;--text:#17212b}
 *{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Kannada",sans-serif;background:var(--bg);color:var(--text)}
 header{background:var(--navy);color:#fff;padding:16px 22px}header h1{margin:0 0 5px;font-size:22px}header p{margin:0;opacity:.95;font-size:13px}
-.brandrow{display:flex;align-items:center;gap:12px}.brandlogo{width:46px;height:46px;border-radius:10px;background:#fff;color:#075da5;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;text-align:center;line-height:1.1;flex-shrink:0}.brandtext h1{font-size:22px;margin:0 0 3px}.tabbar{display:flex;gap:8px;background:#fff;padding:10px 14px;border-bottom:1px solid var(--line)}.tabbtn{background:#e8eef5;color:#173b5a}.tabbtn.active{background:#ff8a20;color:#fff}.tabPage.hidden{display:none}
+.brandrow{display:flex;align-items:center;gap:12px}.brandlogo{width:46px;height:46px;border-radius:10px;background:#fff;color:#075da5;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;text-align:center;line-height:1.1;flex-shrink:0}.brandtext h1{font-size:22px;margin:0 0 3px}.tabbar{display:flex;gap:8px;background:#fff;padding:10px 14px;border-bottom:1px solid var(--line)}.tabbtn{background:#e8eef5;color:#173b5a}.tabbtn.active{background:#ff8a20;color:#fff}.tabPage.hidden{display:none}.authbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}.authpanel{margin-top:10px;padding:12px;background:#f7faff;border:1px solid var(--line);border-radius:9px}.authgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:650px}.authuser{font-size:13px;color:#17613d;font-weight:bold}@media(max-width:460px){.authgrid{grid-template-columns:1fr}}
 main{max-width:1300px;margin:18px auto;padding:0 14px 30px}.panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px #1020300b}
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}input,select,textarea{width:100%;padding:10px 11px;border:1px solid #bccbd8;border-radius:7px;font:inherit;background:#fff}
 label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}.formgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.wide{grid-column:span 2}
 button{border:0;border-radius:7px;padding:10px 14px;font-weight:bold;cursor:pointer}.primary{background:var(--blue);color:white}.secondary{background:#e7eef5;color:#183b58}.danger{background:#ffeded;color:#9b1c1c}
 .search{flex:1;min-width:220px}.status{margin-top:10px;font-size:14px}.ok{color:#137044}.err{color:#a31e1e}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:8px}
 table{border-collapse:collapse;width:100%;min-width:950px;background:white}th,td{border-bottom:1px solid var(--line);padding:9px 10px;text-align:left;font-size:13px;vertical-align:top}th{background:#e9f0f6;color:#173b5a;position:sticky;top:0}
-.actions{white-space:nowrap;display:flex;gap:6px}.count{font-size:13px;color:#526579;margin:10px 0}.hint{color:#526579;font-size:12px;line-height:1.5}.hidden{display:none}
+.actions{white-space:nowrap;display:flex;gap:6px}.count{font-size:13px;color:#526579;margin:10px 0}.hint{color:#526579;font-size:12px;line-height:1.5}.hidden{display:none}.authbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}.authpanel{margin-top:10px;padding:12px;background:#f7faff;border:1px solid var(--line);border-radius:9px}.authgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:650px}.authuser{font-size:13px;color:#17613d;font-weight:bold}@media(max-width:460px){.authgrid{grid-template-columns:1fr}}
 @media(max-width:800px){.formgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.wide{grid-column:span 2}header h1{font-size:19px}}
 @media(max-width:460px){.formgrid{grid-template-columns:1fr}.wide{grid-column:span 1}main{padding:0 8px 20px;margin-top:10px}.panel{padding:12px}}
 
@@ -28,7 +28,10 @@ table{border-collapse:collapse;width:100%;min-width:950px;background:white}th,td
 <main id="deliveryTab" class="tabPage hidden"><section class="panel"><div class="toolbar">
 <button class="primary" onclick="newRecord()">+ ಹೊಸ Delivery Place</button><button class="secondary" onclick="loadAll()">↻ Refresh</button>
 <div class="search"><input id="searchBox" placeholder="Search PIN Code / Office / Village / Beat…" oninput="searchChanged()"></div>
-</div><div id="status" class="status">Hubli Office Master ಆಧಾರಿತ ಸಾರ್ವಜನಿಕ Search / Add / Edit.</div></section>
+</div><div class="authbar"><span id="authState" class="hint">ಸಾಮಾನ್ಯ ಬಳಕೆದಾರರು: Search / Add / Edit</span><button id="adminLoginBtn" class="secondary" type="button" onclick="showAdminLogin()">Admin Login</button><span id="adminUserLabel" class="authuser hidden"></span><button id="adminLogoutBtn" class="secondary hidden" type="button" onclick="adminLogout()">Logout</button></div>
+<div id="adminLoginPanel" class="authpanel hidden"><strong>Admin Login</strong><div class="authgrid" style="margin-top:10px"><div><label for="adminEmail">Admin Email</label><input id="adminEmail" type="email" autocomplete="username" placeholder="Admin Email"></div><div><label for="adminPassword">Password</label><input id="adminPassword" type="password" autocomplete="current-password" placeholder="Password"></div></div><div class="toolbar" style="margin-top:10px"><button class="primary" type="button" onclick="adminLogin()">Login</button><button class="secondary" type="button" onclick="sendAdminPasswordReset()">Forgot Password?</button><button class="secondary" type="button" onclick="hideAdminLogin()">Close</button></div><div id="loginStatus" class="status"></div></div>
+<div id="passwordResetPanel" class="authpanel hidden"><strong>ಹೊಸ Admin Password ಹೊಂದಿಸಿ</strong><div style="max-width:320px;margin-top:10px"><label for="newAdminPassword">New Password</label><input id="newAdminPassword" type="password" minlength="8" autocomplete="new-password" placeholder="ಕನಿಷ್ಠ 8 ಅಕ್ಷರಗಳು"></div><div class="toolbar" style="margin-top:10px"><button class="primary" type="button" onclick="saveNewAdminPassword()">Password ಉಳಿಸಿ</button></div><div id="resetStatus" class="status"></div></div>
+<div id="status" class="status">Hubli Office Master ಆಧಾರಿತ ಸಾರ್ವಜನಿಕ Search / Add / Edit.</div></section>
 <section id="formPanel" class="panel hidden">
 <h2 id="formTitle" style="font-size:18px;margin-top:0">ಹೊಸ Delivery Place</h2>
 <form id="recordForm" onsubmit="submitForm(event)">
@@ -85,9 +88,10 @@ function initSupabase(){
   if(!NTD_SUPABASE_URL || !NTD_SUPABASE_PUBLISHABLE_KEY || !HUBLI_SUPABASE_URL || !HUBLI_SUPABASE_PUBLISHABLE_KEY){
     alert('Supabase Project URL / Publishable Key ಪರಿಶೀಲಿಸಿ. Secret key ಬಳಸಬೇಡಿ.');return false;
   }
-  const authOptions={auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}};
-  ntdSb=window.supabase.createClient(NTD_SUPABASE_URL,NTD_SUPABASE_PUBLISHABLE_KEY,authOptions);
-  hubliSb=window.supabase.createClient(HUBLI_SUPABASE_URL,HUBLI_SUPABASE_PUBLISHABLE_KEY,authOptions);
+  const ntdAuthOptions={auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}};
+   const hubliAuthOptions={auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}};
+   ntdSb=window.supabase.createClient(NTD_SUPABASE_URL,NTD_SUPABASE_PUBLISHABLE_KEY,ntdAuthOptions);
+   hubliSb=window.supabase.createClient(HUBLI_SUPABASE_URL,HUBLI_SUPABASE_PUBLISHABLE_KEY,hubliAuthOptions);
   return true;
 }
 function switchTab(which){
@@ -96,6 +100,81 @@ function switchTab(which){
  document.getElementById('tabNtdBtn').classList.toggle('active',which==='ntd');
  document.getElementById('tabDeliveryBtn').classList.toggle('active',which==='delivery');
  if(which==='delivery') loadDeliveryTab();
+}
+function showAdminLogin(){document.getElementById('adminLoginPanel').classList.remove('hidden');document.getElementById('adminEmail').focus();}
+function hideAdminLogin(){document.getElementById('adminLoginPanel').classList.add('hidden');}
+function authMessage(id,msg,type=''){const el=document.getElementById(id);if(el){el.textContent=msg;el.className='status '+type;}}
+function updateAuthUI(){
+  const isAdmin=currentRole==='admin';
+  document.getElementById('adminLoginBtn').classList.toggle('hidden',!!currentUser);
+  document.getElementById('adminLogoutBtn').classList.toggle('hidden',!currentUser);
+  document.getElementById('adminUserLabel').classList.toggle('hidden',!currentUser);
+  document.getElementById('adminUserLabel').textContent=currentUser?(isAdmin?'Admin: ':'Signed in: ')+(currentUser.email||''):'';
+  document.getElementById('authState').textContent=isAdmin?'Admin ಅಧಿಕಾರ ಸಕ್ರಿಯವಾಗಿದೆ. Delete ಅನುಮತಿ ಇದೆ.':(currentUser?'Login ಆಗಿದ್ದೀರಿ; Admin Delete ಅನುಮತಿ ಇಲ್ಲ.':'ಸಾಮಾನ್ಯ ಬಳಕೆದಾರರು: Search / Add / Edit');
+  renderRecords();
+}
+async function verifyHubliAdmin(user){
+  currentUser=user||null;currentRole='public';
+  if(user){
+    const {data,error}=await hubliSb.rpc('is_hubli_admin');
+    if(!error && data===true) currentRole='admin';
+    else if(error) console.error('Admin verification failed:',error.message);
+  }
+  updateAuthUI();
+}
+async function initHubliAuth(){
+  if(!hubliSb)return;
+  const {data:{session},error}=await hubliSb.auth.getSession();
+  if(error) console.error('Session check failed:',error.message);
+  await verifyHubliAdmin(session?.user||null);
+  hubliSb.auth.onAuthStateChange((event,session)=>{
+    if(event==='PASSWORD_RECOVERY'){
+      document.getElementById('passwordResetPanel').classList.remove('hidden');
+      document.getElementById('adminLoginPanel').classList.add('hidden');
+    }
+    setTimeout(()=>verifyHubliAdmin(session?.user||null),0);
+  });
+}
+async function adminLogin(){
+  const email=document.getElementById('adminEmail').value.trim().toLowerCase();
+  const password=document.getElementById('adminPassword').value;
+  if(!email||!password){authMessage('loginStatus','Email ಮತ್ತು Password ನಮೂದಿಸಿ.','err');return;}
+  authMessage('loginStatus','Login ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ…');
+  const {data,error}=await hubliSb.auth.signInWithPassword({email,password});
+  if(error){authMessage('loginStatus','Login ವಿಫಲ: '+error.message,'err');return;}
+  const {data:isAdmin,error:roleError}=await hubliSb.rpc('is_hubli_admin');
+  if(roleError||isAdmin!==true){
+    await hubliSb.auth.signOut();
+    currentUser=null;currentRole='public';updateAuthUI();
+    authMessage('loginStatus','ಈ Emailಗೆ Hubli Admin ಅನುಮತಿ ಇಲ್ಲ.','err');return;
+  }
+  await verifyHubliAdmin(data.user);
+  hideAdminLogin();
+  document.getElementById('adminPassword').value='';
+  status('Admin Login ಯಶಸ್ವಿಯಾಗಿದೆ. Delete ಸೌಲಭ್ಯ ಸಕ್ರಿಯವಾಗಿದೆ.','ok');
+}
+async function adminLogout(){
+  const {error}=await hubliSb.auth.signOut();
+  if(error){status('Logout ಆಗಲಿಲ್ಲ: '+error.message,'err');return;}
+  currentUser=null;currentRole='public';updateAuthUI();
+  status('Admin Logout ಯಶಸ್ವಿಯಾಗಿದೆ.','ok');
+}
+async function sendAdminPasswordReset(){
+  const email=document.getElementById('adminEmail').value.trim().toLowerCase();
+  if(!email){authMessage('loginStatus','ಮೊದಲು Admin Email ನಮೂದಿಸಿ.','err');return;}
+  const redirectTo=window.location.origin+window.location.pathname;
+  const {error}=await hubliSb.auth.resetPasswordForEmail(email,{redirectTo});
+  if(error){authMessage('loginStatus','Recovery Email ಕಳುಹಿಸಲಾಗಲಿಲ್ಲ: '+error.message,'err');return;}
+  authMessage('loginStatus','Password Recovery Email ಕಳುಹಿಸಲಾಗಿದೆ. Email‌ನ ಹೊಸ ಲಿಂಕ್ ತೆರೆಯಿರಿ.','ok');
+}
+async function saveNewAdminPassword(){
+  const password=document.getElementById('newAdminPassword').value;
+  if(password.length<8){authMessage('resetStatus','Password ಕನಿಷ್ಠ 8 ಅಕ್ಷರಗಳಿರಬೇಕು.','err');return;}
+  const {error}=await hubliSb.auth.updateUser({password});
+  if(error){authMessage('resetStatus','Password ಬದಲಾಯಿಸಲಾಗಲಿಲ್ಲ: '+error.message,'err');return;}
+  document.getElementById('passwordResetPanel').classList.add('hidden');
+  document.getElementById('newAdminPassword').value='';
+  authMessage('loginStatus','ಹೊಸ Password ಉಳಿಸಲಾಗಿದೆ. ಈಗ Admin Login ಮಾಡಬಹುದು.','ok');
 }
 function setNtdText(id,value){document.getElementById(id).textContent=(value==null||String(value).trim()==='')?'—':String(value)}
 function showNtdRecord(r){
@@ -294,6 +373,6 @@ async function submitForm(e){
 async function removeRecord(id){if(currentRole!=='admin'){status('Delete ಮಾಡಲು Admin ಅನುಮತಿ ಅಗತ್ಯ.','err');return;}const r=records.find(x=>x.id===id);if(!r||!confirm('ಈ Delivery Place ಅಳಿಸಬೇಕೇ?\n'+r.deliveryPlaces+' — '+r.officeName))return;const {error}=await hubliSb.from('hubballi_delivery_places').delete().eq('id',id);if(error){status('ಅಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ: '+error.message,'err');return;}await loadAll();status('ದಾಖಲೆ ಅಳಿಸಲಾಗಿದೆ.','ok');}
 if(initSupabase()){
  document.getElementById('ntdStatus').textContent='All India NTD: PIN Code ಅಥವಾ Office Name ನಮೂದಿಸಿ ಹುಡುಕಿ.';
- // Google OAuth is intentionally not invoked in this temporary test build.
+ initHubliAuth();
 }
 </script></body></html>
